@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,13 +20,17 @@ import javax.servlet.http.HttpServletRequest;
 public class InfoController {
 
     @Value("${server.port}")
-    private Integer port;
+    private String port;
 
     @Value("${spring.application.name}")
     private String appName;
 
     @GetMapping("/get")
-    public Object getInfo() {
-        return appName + ": " + port;
+    public Object getInfo(HttpServletRequest request) {
+        return new HashMap<String, String>() {{
+           this.put("请求路径：", request.getRequestURL().toString());
+           this.put("请求服务：", appName);
+           this.put("请求端口：", port);
+        }};
     }
 }

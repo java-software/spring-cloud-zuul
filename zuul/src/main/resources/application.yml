@@ -1,19 +1,26 @@
 server:
-  port: 8101
+  port: 8091
 
 spring:
   application:
-    name: info-server
-
+    name: zuul-server
 
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8081/eureka
   instance:
-    instance-id: info-8101
+    instance-id: zuul-8091
     prefer-ip-address: true
     # Eureka Client 给 Eureka Server 发送心跳的时间间隔，默认 30 单位是 s
     lease-renewal-interval-in-seconds: 1
     # Eureka Server 最后一次收到心跳的等待上线，超时剔除服务，默认 90 单位是 s
     lease-expiration-duration-in-seconds: 2
+
+zuul:
+  routes:
+    info-service:
+      path: /info/**
+      serviceId: info-server
+
+
